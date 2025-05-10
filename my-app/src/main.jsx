@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ListingsBoardPage from './pages/ListingsBoardPage.jsx'
 import AddListingPage from './pages/AddListingPage.jsx'
 import EditListingPage from './pages/EditListingPage.jsx'
+import SignInPage from './pages/SignIn.tsx'
+import SignUpPage from './pages/SignUp.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -17,6 +19,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/listings" element={<ListingsBoardPage />} />
         <Route path="/add" element={<AddListingPage />} />
         <Route path="/edit" element={<EditListingPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
