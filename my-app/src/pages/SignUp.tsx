@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    phoneNumber: "",
+    role: "user"
   });
 
   const [isTouched, setIsTouched] = useState(false);
@@ -27,13 +31,13 @@ export default function SignUp() {
     return "";
   };
 
-  const getConfirmPasswordError = () => {
+  const getConfirmPasswordError = () => {    
     if (formData.confirmPassword !== formData.password)
       return "⚠️ Passwords do not match";
     return "";
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); //Stops the browser from submitting the form the traditional way
 
     const pwdErr = getPasswordError();
@@ -44,7 +48,24 @@ export default function SignUp() {
       return;
     }
 
-    alert(`Email: ${formData.email}\nPassword: ${formData.password}`);
+    try {
+      const response = await axios.post('http://localhost:8000/register', {
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        phone_number: formData.phoneNumber,
+        role: 'user'        
+      });
+
+      alert('User registered successfully!');
+      console.log(response.data);
+      alert(`Email: ${formData.email}\nPassword: ${formData.password}`);
+
+      
+    } catch (error) {      
+      console.error("General error:", error.message);
+      alert("An unexpected error occurred.");      
+    }
   };
 
   const passwordError = getPasswordError();
@@ -67,7 +88,15 @@ export default function SignUp() {
           <label htmlFor="name" className="block mb-1 font-medium">
             Username
           </label>
-          <input className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input 
+            type="text"
+            name="name"
+            id="name"
+            className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            onChange={handleChange}
+            value={formData.name}
+            required
+          />
         </div>
 
         <div className="mb-4">
@@ -81,6 +110,21 @@ export default function SignUp() {
             className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={handleChange}
             value={formData.email}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="phoneNumber" className="block mb-1 font-medium">
+            Phone number
+          </label>
+          <input 
+            type="phoneNumber"
+            name="phoneNumber"
+            id="phoneNumber"
+            className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={handleChange}
+            value={formData.phoneNumber}
             required
           />
         </div>

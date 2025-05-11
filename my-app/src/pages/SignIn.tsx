@@ -1,15 +1,54 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode }  from "jwt-decode";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      const res = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        throw new Error("Niepoprawny email lub hasło.");
+      }
+
+      const data = await res.json();
+      const token = data.access_token;
+
+      // Zapis tokena do localStorage
+      localStorage.setItem("token", token);
+
+      // Dekoduj token i pokaż info
+      const decoded: any = jwtDecode(token);
+      const userId = decoded.sub;
+
+      setMessage(`Zalogowano jako: ID ${userId}`);
+      
+      // Przekieruj na /listings po chwili
+      setTimeout(() => {
+        navigate("/listings");
+      }, 1500);
+    } catch (error: any) {
+      setMessage(error.message || "Wystąpił błąd.");
+    }
+
+    
+
     console.log("Logging in:", formData);
     // can add validation or backend API call here later
   };
