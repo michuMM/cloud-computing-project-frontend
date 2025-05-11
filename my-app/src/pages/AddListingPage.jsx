@@ -22,25 +22,48 @@ function AddListingPage({ addListing }) {
     setFormData((prev) => ({ ...prev, photo: e.target.files[0] }));
   };
 
-  const handleSubmit = (e) => {
-    console.log("addListing typeof:", typeof addListing);
-    console.log("addListing:", addListing);
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const newListing = {
-      itemName: formData.itemName,
-      price: formData.price,
-      exchangeAddress: formData.exchangeAddress,
-      description: formData.description,
-      photo: formData.photo ? URL.createObjectURL(formData.photo) : null,
-    };
+  const token = localStorage.getItem("token"); // jeśli używasz tokena JWT
+  if (!token) {
+    alert("Nie jesteś zalogowany");
+    return;
+  }
 
-    console.log("Nowy listing:", newListing); 
-
-    //TUTAJ ZROBIC DODAWANIE OGLOSZENIA DO BAZY DANYCHs
-
-    navigate("/listings");
+  const payload = {
+    name: formData.itemName,
+    image: formData.photo ? formData.photo.name : null, // lub base64, jeśli backend akceptuje
+    price: parseFloat(formData.price),
+    address: formData.exchangeAddress,
+    category_id: 1, // tymczasowo na sztywno
   };
+
+  console.log("Payload:", payload);
+
+  try {
+    const response = await fetch("http://localhost:8000/items/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // jeśli backend wymaga JWT
+      },
+      body: JSON.stringify(payload),
+    });    
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Błąd dodawania ogłoszenia: ${errorData.detail || response.status}`);
+    }
+
+    const result = await response.json();
+    console.log("Dodano ogłoszenie:", result);
+    navigate("/listings");
+  } catch (error) {
+    console.error("Błąd podczas wysyłania ogłoszenia:", error.message);
+    alert("Wystąpił błąd przy dodawaniu ogłoszenia.");
+  }
+};
 
   return (
     <div>

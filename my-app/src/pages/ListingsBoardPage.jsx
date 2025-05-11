@@ -1,46 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from "../components/Navbar";
+import axios from 'axios';
 
 function ListingsBoardPage() {
-  const allListings = [
-    {
-      imageUrl: 'https://picsum.photos/150',
-      itemName: 'Rower',
-      price: '300',
-      username: 'janusz123',
-      exchangeAddress: 'Warszawa, ul. Testowa 1',
-      userPhoneNumber: '123-456-789',
-    },
-    {
-      imageUrl: 'https://picsum.photos/150',
-      itemName: 'Gitara',
-      price: '600',
-      username: 'ala_ma_kota',
-      exchangeAddress: 'Kraków, ul. Muzyczna 2',
-      userPhoneNumber: '987-654-321',
-    },
-    {
-      username: 'janek97',
-      itemName: 'Kurtka zimowa',
-      imageUrl: 'https://picsum.photos/150',
-      price: 120,
-      exchangeAddress: 'ul. Piękna 12, Warszawa',
-      userPhoneNumber: '123-456-789'
-    }    
-    // Dodaj więcej przykładowych ogłoszeń jeśli chcesz
-  ];
-
+  const [listings, setListings] = useState([]);
   const [searchInput, setSearchInput] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');  
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/items/')
+      .then(response => {
+        setListings(response.data);
+      })
+      .catch(error => {
+        console.error('Błąd podczas pobierania ogłoszeń:', error);
+      });
+  }, []);
 
   const handleSearch = () => {
     setSearchTerm(searchInput);
   };
 
-  const filteredListings = allListings.filter((listing) =>
+  const filteredListings = listings.filter((listing) =>
     Object.values(listing).some((value) =>
-      // Konwertuj value na string, jeśli to nie jest string
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
@@ -108,11 +91,11 @@ function ListingsBoardPage() {
                     alt={listing.itemName}
                     className="mb-4 w-full h-40 object-cover rounded"
                   />
-                  <h2 className="text-xl font-semibold">{listing.itemName}</h2>
+                  <h2 className="text-xl font-semibold">{listing.name}</h2>
                   <p className="text-gray-800">Cena: {listing.price}$</p>
-                  <p className="text-gray-700">Użytkownik: {listing.username}</p>
+                  <p className="text-gray-700">Użytkownik: {listing.user_id}</p>
                   <p className="text-gray-700">
-                    {listing.exchangeAddress}
+                    {listing.address}
                   </p>
                   <p className="text-gray-700">
                     Telefon: {listing.userPhoneNumber}
