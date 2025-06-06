@@ -66,7 +66,7 @@ function ListingsBoardPage() {
               Add listing
             </Link>
             <Link
-              to="/yourListings"
+              to="/mylistings"
               className="bg-[#D9D9D9] text-black px-4 py-2 rounded-full text-center w-fit"
             >
               Your listings
