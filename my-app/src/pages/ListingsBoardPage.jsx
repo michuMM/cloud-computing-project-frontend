@@ -93,12 +93,12 @@ function ListingsBoardPage() {
                   />
                   <h2 className="text-xl font-semibold">{listing.name}</h2>
                   <p className="text-gray-800">Cena: {listing.price}$</p>
-                  <p className="text-gray-700">Użytkownik: {listing.user_id}</p>
+                  <p className="text-gray-700">Użytkownik: {listing.user.name}</p>
                   <p className="text-gray-700">
                     {listing.address}
                   </p>
                   <p className="text-gray-700">
-                    Telefon: {listing.userPhoneNumber}
+                    Telefon: {listing.user.phone_number}
                   </p>
                 </div>
               ) : (
