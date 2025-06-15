@@ -88,8 +88,8 @@ function ListingsBoardPage() {
                     className="bg-[#D9D9D9] rounded-lg p-4 flex flex-col items-center w-full"
                   >
                     <img
-                      src={listing.imageUrl}
-                      alt={listing.itemName}
+                      src={`data:image/jpeg;base64,${listing.image}`}
+                      alt={listing.name}
                       className="mb-4 w-full h-40 object-cover rounded"
                     />
                     <h2 className="text-xl font-semibold">{listing.name}</h2>

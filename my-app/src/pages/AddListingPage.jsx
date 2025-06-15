@@ -19,7 +19,18 @@ function AddListingPage({ addListing }) {
   };
 
   const handleFileChange = (e) => {
-    setFormData((prev) => ({ ...prev, photo: e.target.files[0] }));
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((prev) => ({
+        ...prev,
+        photo: reader.result.split(',')[1], // tylko czysty base64 bez nagłówka
+      }));
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e) => {
@@ -33,7 +44,7 @@ function AddListingPage({ addListing }) {
 
   const payload = {
     name: formData.itemName,
-    image: formData.photo ? formData.photo.name : null,
+    image: formData.photo,
     price: parseFloat(formData.price),
     address: formData.exchangeAddress,
     description: formData.description || "",

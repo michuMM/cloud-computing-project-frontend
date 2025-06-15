@@ -136,9 +136,9 @@ function MyListingsPage() {
               {/* ZDJĘCIE + PRZYCISK EDIT */}
               <div className="relative h-full w-1/3">
                 <img
-                  src={item.imageUrl}
+                  src={`data:image/jpeg;base64,${item.image}`}
                   alt={item.name}
-                  className="object-cover w-full h-full"
+                  className="mb-4 w-full h-40 object-cover rounded"
                 />
                 <Link
                   to={`/edit/${item.id}`}
