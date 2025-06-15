@@ -113,6 +113,34 @@ function MyListingsPage() {
     }
   };
 
+  const handleDelete = async (id) => {
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Nie jesteś zalogowany");
+      return;
+    }
+    
+    try {
+      const response = await fetch(`http://localhost:8000/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete item");
+      }
+
+      // Odśwież listę po usunięciu
+      setListings((prev) => prev.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -128,7 +156,7 @@ function MyListingsPage() {
               {/* STATUS */}
               <div className="absolute top-2 right-4 text-sm font-semibold">
                 Status: {item.status}
-                {item.status === 'requested' && (
+                {item.status === "requested" && (
                   <div className="text-xs font-normal">by: {item.requesting_user_name}</div>
                 )}
               </div>
@@ -140,12 +168,20 @@ function MyListingsPage() {
                   alt={item.name}
                   className="mb-4 w-full h-40 object-cover rounded"
                 />
-                <Link 
-                  to={`/edit/${item.id}`}
-                  className="absolute bottom-2 left-2 bg-white text-black px-3 py-1 rounded shadow"
-                >
-                  Edit
-                </Link>
+                <div className="absolute bottom-2 left-2 flex space-x-2">
+                  <Link 
+                    to={`/edit/${item.id}`}
+                    className="bg-white text-black px-3 py-1 rounded shadow"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded shadow"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
 
               {/* INFORMACJE */}
@@ -157,7 +193,7 @@ function MyListingsPage() {
                   <p className="text-gray-600 mt-2">{item.description}</p>
                 </div>
 
-                {item.status === 'requested' && (
+                {item.status === "requested" && (
                   <div className="flex justify-end space-x-2 mt-4">
                     <button
                       onClick={() => handleAccept(item.id)}
