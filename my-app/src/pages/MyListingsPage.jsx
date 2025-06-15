@@ -140,7 +140,7 @@ function MyListingsPage() {
                   alt={item.name}
                   className="mb-4 w-full h-40 object-cover rounded"
                 />
-                <Link
+                <Link 
                   to={`/edit/${item.id}`}
                   className="absolute bottom-2 left-2 bg-white text-black px-3 py-1 rounded shadow"
                 >
