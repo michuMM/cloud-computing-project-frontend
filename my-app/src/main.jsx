@@ -26,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/signup" element={<SignUpPage />} />        
         <Route path="/mylistings" element={<MyListingsPage />} />
         <Route path="/item/:id" element={<ItemDetailPage />} />
+        <Route path="/edit/:id" element={<EditListingPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
