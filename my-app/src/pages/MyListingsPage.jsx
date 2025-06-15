@@ -69,7 +69,6 @@ function MyListingsPage() {
         },
       });
 
-      alert("Wymiana zaakceptowana!");
       // Odśwież listę
       setListings(prev =>
         prev.map(item =>
@@ -98,7 +97,6 @@ function MyListingsPage() {
         },
       });
 
-      alert("Wymiana odrzucona!");
       // Odśwież listę
       setListings(prev =>
         prev.map(item =>
@@ -120,7 +118,7 @@ function MyListingsPage() {
       alert("Nie jesteś zalogowany");
       return;
     }
-    
+
     try {
       const response = await fetch(`http://localhost:8000/${id}`, {
         method: "DELETE",
@@ -145,8 +143,7 @@ function MyListingsPage() {
     <div>
       <Navbar />
       <div className="min-h-screen flex flex-col items-center p-8 space-y-6">
-        <h1 className="text-3xl font-bold self-start w-full max-w-6xl">Twoje ogłoszenia</h1>
-
+        <h1 className="ml-40 text-3xl font-bold self-start w-full max-w-6xl">Your listings</h1>
         <div className="flex flex-col space-y-6 w-full max-w-6xl">
           {listings.map((item) => (
             <div
@@ -169,12 +166,14 @@ function MyListingsPage() {
                   className="mb-4 w-full h-40 object-cover rounded"
                 />
                 <div className="absolute bottom-2 left-2 flex space-x-2">
-                  <Link 
-                    to={`/edit/${item.id}`}
-                    className="bg-white text-black px-3 py-1 rounded shadow"
-                  >
-                    Edit
-                  </Link>
+                  {item.status !== "closed" && (
+                    <Link
+                      to={`/edit/${item.id}`}
+                      className="bg-white text-black px-3 py-1 rounded shadow"
+                    >
+                      Edit
+                    </Link>
+                  )}
                   <button
                     onClick={() => handleDelete(item.id)}
                     className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded shadow"
@@ -188,8 +187,8 @@ function MyListingsPage() {
               <div className="p-4 flex flex-col justify-between w-2/3">
                 <div>
                   <h2 className="text-2xl font-bold">{item.name}</h2>
-                  <p className="text-lg font-semibold">{item.price}$</p>
-                  <p className="text-gray-700">{item.address}</p>
+                  <p className="text-lg font-semibold">Price: {item.price}$</p>
+                  <p className="text-gray-700">Address {item.address}</p>
                   <p className="text-gray-600 mt-2">{item.description}</p>
                 </div>
 

@@ -105,7 +105,10 @@ function AddListingPage({ addListing }) {
               type="text"
               name="price"
               value={formData.price}
-              onChange={handleChange}
+              onChange={(e) => {
+                const onlyNumbers = e.target.value.replace(/\D/g, ""); // usuwa wszystko co nie cyfrą
+                setFormData((prev) => ({ ...prev, price: onlyNumbers }));
+              }}
               className="w-full p-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>

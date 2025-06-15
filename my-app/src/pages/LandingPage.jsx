@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar";
+import Navbar from "../components/NavbarLandingPage";
 import About from "../components/About";
 
 export default function LandingPage() {

@@ -26,7 +26,7 @@ function EditListingPage() {
           price: data.price,
           exchangeAddress: data.address,
           description: data.description,
-          photo: null, // zakładamy, że użytkownik może podmienić obraz
+          photo: data.image, // zakładamy, że użytkownik może podmienić obraz
         });
       } catch (error) {
         console.error("Błąd podczas ładowania ogłoszenia:", error.message);
@@ -125,7 +125,10 @@ function EditListingPage() {
               type="text"
               name="price"
               value={formData.price}
-              onChange={handleChange}
+              onChange={(e) => {
+                const onlyNumbers = e.target.value.replace(/\D/g, ""); // usuwa wszystko co nie cyfrą
+                setFormData((prev) => ({ ...prev, price: onlyNumbers }));
+              }}
               className="w-full p-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
