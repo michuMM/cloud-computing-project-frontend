@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode }  from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -38,7 +38,7 @@ export default function SignIn() {
       const userId = decoded.sub;
 
       setMessage(`Zalogowano jako: ID ${userId}`);
-      
+
       // Przekieruj na /listings po chwili
       setTimeout(() => {
         navigate("/listings");
@@ -46,8 +46,6 @@ export default function SignIn() {
     } catch (error: any) {
       setMessage(error.message || "Wystąpił błąd.");
     }
-
-    
 
     console.log("Logging in:", formData);
     // can add validation or backend API call here later

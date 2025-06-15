@@ -7,7 +7,6 @@ interface TokenPayload {
   name: string;
 }
 
-
 export default function Navbar() {
   const [username, setUsername] = useState<string | null>(null);
 
@@ -30,7 +29,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="bg-red-200 shadow-md h-[100px] w-full sticky top-0 z-50">
+    <div className="bg-gray-600 shadow-md h-[100px] w-full sticky top-0 z-50">
       <nav className="flex justify-between items-center px-6 py-4 h-full max-w-6xl mx-auto">
         <div className="flex items-center gap-2">
           <img
@@ -40,7 +39,7 @@ export default function Navbar() {
           />
         </div>
 
-        <div className="flex flex-col justify-between h-[60px]">
+        <div className="flex items-center h-[60px]">
           {username ? (
             <>
               <span className="h-1/3 px-4 py-1 text-sm rounded-full bg-green-200 text-gray-800 flex items-center justify-center">
@@ -50,7 +49,7 @@ export default function Navbar() {
               <button
                 onClick={handleLogout}
                 className="px-4 py-1 text-sm rounded-full bg-gray-300 hover:bg-gray-400 text-gray-800 flex items-center justify-center border border-gray"
-                style={{ height: '33.33%' }}
+                style={{ height: "33.33%" }}
               >
                 Logout
               </button>
