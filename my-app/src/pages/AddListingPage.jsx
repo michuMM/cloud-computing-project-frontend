@@ -33,10 +33,10 @@ function AddListingPage({ addListing }) {
 
   const payload = {
     name: formData.itemName,
-    image: formData.photo ? formData.photo.name : null, // lub base64, jeśli backend akceptuje
+    image: formData.photo ? formData.photo.name : null,
     price: parseFloat(formData.price),
     address: formData.exchangeAddress,
-    category_id: 1, // tymczasowo na sztywno
+    description: formData.description || "",
   };
 
   console.log("Payload:", payload);
@@ -53,7 +53,8 @@ function AddListingPage({ addListing }) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(`Błąd dodawania ogłoszenia: ${errorData.detail || response.status}`);
+      console.error("Szczegóły błędu z backendu:", errorData); // ← to dodaj
+      throw new Error(`Błąd dodawania ogłoszenia: ${JSON.stringify(errorData.detail || errorData)}`);
     }
 
     const result = await response.json();

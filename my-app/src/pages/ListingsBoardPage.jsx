@@ -82,25 +82,27 @@ function ListingsBoardPage() {
           <div className="grid grid-cols-4 gap-6 max-w-6xl w-full">
             {paddedListings.map((listing, index) =>
               listing ? (
-                <div
-                  key={index}
-                  className="bg-[#D9D9D9] rounded-lg p-4 flex flex-col items-center w-full"
-                >
-                  <img
-                    src={listing.imageUrl}
-                    alt={listing.itemName}
-                    className="mb-4 w-full h-40 object-cover rounded"
-                  />
-                  <h2 className="text-xl font-semibold">{listing.name}</h2>
-                  <p className="text-gray-800">Cena: {listing.price}$</p>
-                  <p className="text-gray-700">Użytkownik: {listing.user.name}</p>
-                  <p className="text-gray-700">
-                    {listing.address}
-                  </p>
-                  <p className="text-gray-700">
-                    Telefon: {listing.user.phone_number}
-                  </p>
-                </div>
+                <Link to={`/item/${listing.id}`} className="w-full">
+                  <div
+                    key={index}
+                    className="bg-[#D9D9D9] rounded-lg p-4 flex flex-col items-center w-full"
+                  >
+                    <img
+                      src={listing.imageUrl}
+                      alt={listing.itemName}
+                      className="mb-4 w-full h-40 object-cover rounded"
+                    />
+                    <h2 className="text-xl font-semibold">{listing.name}</h2>
+                    <p className="text-gray-800">Cena: {listing.price}$</p>
+                    <p className="text-gray-700">Użytkownik: {listing.user.name}</p>
+                    <p className="text-gray-700">
+                      {listing.address}
+                    </p>
+                    <p className="text-gray-700">
+                      Telefon: {listing.user.phone_number}
+                    </p>
+                  </div>
+                </Link>
               ) : (
                 <div key={index} className="invisible w-full" />
               )
