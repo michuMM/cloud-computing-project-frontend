@@ -70,9 +70,9 @@ export default function ItemDetailPage() {
       <div className="max-w-5xl mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
         <div className="col-span-1 flex flex-col items-center">
           <img
-            src={item.image ? `http://localhost:8000/uploads/${item.image}` : "idk.jpg"}
+            src={`data:image/jpeg;base64,${item.image}`}
             alt={item.name}
-            className="w-full h-auto rounded-xl shadow-md"
+            className="mb-4 w-full h-40 object-cover rounded"
           />
           <button 
             className="mt-4 w-full" 
